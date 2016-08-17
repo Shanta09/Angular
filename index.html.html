@@ -1,0 +1,68 @@
+<html ng-app="myApp">
+	<head>
+	<style>
+	
+	</style>
+		 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.4/angular.min.js"></script>
+	</head>
+	<body  ng-controller="myCtrl" >
+		Please enter a name:<input type="search" ng-model="searchingName.name">   <!-- passing object in ng-model  -->
+		<br>
+		<br>
+		<table border='1' cellpadding='3' cellspacing='0'> <!---start of Table-->
+   
+    		<tr style="text-align:center">
+     			<td colspan="4"> Personal Information</td> 
+    			<td colspan="4">Address</td>
+				<td colspan="2">Location</td>
+				<td colspan="2">Working information</td>
+				<td colspan="3">Company Information</td>
+     		</tr>
+    		<tr>
+     			<td>ID</td>
+				<td>Name</td>
+				<td>User Name</td>
+				<td>Email</td>
+				<td>Street</td><td>Suite</td><td>City</td><td>Zip Code</td>
+				<td>Latitude</td>
+				<td>Longitude</td>
+				<td>Phone</td>
+				<td>Website</td>
+				<td>Company Name</td>
+				<td>Company Catch Phrase</td>
+				<td>Company BS</td>
+			</tr>
+            <!--inserting jason data in table-->
+            <tr  ng-repeat="x in students|filter:searchingName:strict"> <!---- here strict means search in the name only--->
+			
+            <td>{{ x.id }}</td>
+            <td>{{ x.name }}</td>
+            <td>{{ x.username }}</td>
+            <td>{{ x.email }}</td>
+            <td>{{ x.address.street}}</td>
+            <td>{{ x.address.suite }}</td>
+            <td>{{ x.address.city}}</td>
+			<td>{{ x.address.zipcode}}</td>
+            <td>{{ x.address.geo.lat }}</td>
+            <td>{{ x.address.geo.lng}}</td>
+            <td>{{ x.phone }}</td>
+            <td>{{ x.website }}</td>
+            <td>{{ x.company.name }}</td>
+            <td>{{ x.company.catchPhrase}}</td>
+            <td>{{ x.company.bs}}</td>
+            </tr>
+  	</table> <!---End of Table-->
+
+		<script>
+        var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+    $http.get("http://jsonplaceholder.typicode.com/users")
+    .success(function (result) {$scope.students = result;});
+    
+});
+ 
+    
+
+		</script>	
+	</body>
+</html>

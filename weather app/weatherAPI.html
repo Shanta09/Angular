@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<title>
+			Showing Weather data
+		</title>
+		<style>
+			*{
+				padding:0px;
+				margin:0px;
+			}
+			.mainBar{
+			    height: 100px;
+				width: 100%;
+				text-align: center;
+				font-size: 50px;
+				color: white;
+				background: #31708f;
+				line-height: 100px;
+				border-radius: 10px;
+			
+			}
+			.input{
+			margin-right:0px;
+			}
+		</style>
+		
+		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+
+	</head>
+	<body ng-app="myApp" ng-controller="myCtrl">
+		
+		
+		<h1 class="mainBar"> Weather Report Application</h1>
+		<div class="col-md-6 infoBar" >
+			<input class="form-control inputOfCity" type="text" ng-model="cname" placeholder="Please Enter City Name"/>
+		</div>
+		<div class="col-md-6 infoBar">
+			<button type="Submit" class="btn btn-info"ng-click="disp()">Get Weather</button>
+		</div>
+		
+		<div class="col-md-6 infoBar">
+			<table class="table">
+				<tr class="success"><td>Description:</td><td>{{weatherData.data.weather[0].description}}</td></tr>
+				<tr class="info"><td>Temp:</td><td>{{weatherData.data.main.temp}}</td></tr>
+				<tr class="success"><td>Pressure:</td><td>{{weatherData.data.main.pressure}}</td></tr>
+				<tr class="info"><td>Humidity:</td><td>{{weatherData.data.main.humidity}}</td></tr>
+				<tr class="success"><td>Minimum Temp:</td><td>{{weatherData.data.main.temp_min}}</td></tr>
+				<tr class="info"><td>Maximum Temp:</td><td>{{weatherData.data.main.temp_max}}</td></tr>
+				<tr class="success"><td>Sunrise Time:</td><td>{{weatherData.data.sys.sunrise}}</td></tr>
+				<tr class="info"><td>Sunset Time:</td><td>{{weatherData.data.sys.sunset}}</td></tr>	
+				
+			</table>
+			
+		</div>
+		<script>
+			    
+				var ang=angular.module('myApp',[]);
+				ang.controller('myCtrl',function($scope,$http){
+				$scope.disp=function(){
+					if(!$scope.cname){
+                
+					}
+					else {
+						$http.get('http://api.openweathermap.org/data/2.5/weather?q='+$scope.cname+'&appid=8bf2a4e368d8283164ea920c152ddab2').then(function(response){
+								$scope.weatherData = response;
+								
+							})
+							}
+						}
+				});
+				
+		</script>	
+	</body>
+</html>

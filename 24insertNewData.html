@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en">
+   <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.4/angular.min.js"></script>
+  </head>
+  <body>
+	<div class="container">
+		
+		<div class="row" ng-app="ang" ng-controller="ctrl">
+			<br>
+			<br>
+			<br>
+			<div class="col-sm-6">	
+		
+			<table class="table table-bordered table-striped">
+				<tr><td>Edit</td><td>Sno</td><td>Roll no</td><td>Name</td><td>Email</td><td>Marks</td><td>Del</td></tr>	
+				<tr ng-repeat="data in students"><td><button ng-click="insert(data.sno)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button></td><td>{{data.sno}}</td><td>{{data.id}}</td><td>{{data.name}}</td><td>{{data.email}}</td><td>{{data.marks}}</td><td><button ng-click="del(data.sno)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button></td></tr>	
+			</table>
+			
+			</div>
+			<div class="col-sm-4">
+				<form role="form">
+					<div class="form-group">
+						<label for="sno">Sno</label>
+						<input type="text" ng-model="sno" id="sno" placeholder="entere sno" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="rollno">Roll No</label>
+						<input type="text" id="rollno" ng-model="rollno" placeholder="entere Roll no" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" id="name" ng-model="name" placeholder="entere Name" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="text" id="email" ng-model="email" placeholder="entere email" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="marks">Marks</label>
+						<input type="text" id="marks" ng-model="marks" placeholder="entere marks" class="form-control" required>
+					</div>
+				
+					<input type="submit" value="Submit" class="btn btn-success" ng-click="pushing(sno,rollno,name,email,marks)">
+					<input type="submit" value="New Data" class="btn btn-danger" ng-click="insert('new')">
+					
+				</form>
+			</div>
+			
+		</div>
+	</div>
+	<script>
+			var angular=angular.module('ang',[]);
+			angular.controller('ctrl',function($scope,$http){
+				$http.get("jsonData.txt").success(function(response){
+					$scope.students=response;
+				})
+				
+				$scope.insert=function(sno){
+					if(sno=='new')
+					{
+					$scope.sno='';
+						$scope.rollno='';
+						$scope.name='';
+						$scope.email='';
+						$scope.marks='';
+							
+					}
+					else{
+						$scope.sno=sno;
+						$scope.rollno=$scope.students[sno-1].id;
+						$scope.name=$scope.students[sno-1].name;
+						$scope.email=$scope.students[sno-1].email;
+						$scope.marks=$scope.students[sno-1].marks;
+							
+					}
+				
+				}
+				$scope.pushing=function(no,rollno,name,email,marks){
+					
+					$scope.students.push({name:name,marks:marks,id:rollno,sno:no,email:email});
+				}
+				
+				$scope.del=function(sno)
+				{
+					$scope.students.splice(sno-1,1);
+				}
+			});
+		</script>
+  </body>
+</html>
